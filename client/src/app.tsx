@@ -56,10 +56,10 @@ const App: React.FC = () => {
       headers:{
         'Content-Type':'application/json',
       },
-      body:JSON.stringify(authSel)
+      body:JSON.stringify({name:authSel})
     })
     .then(response=>response.json())
-    .then(data=>console.log(data.message))
+    .then(data=>setAuthSelServer(data.message))
     .catch((err)=>{
       console.error('select fetch error',err)
     })
@@ -82,7 +82,7 @@ const App: React.FC = () => {
           <input type="text" value={authSel} onChange={(ele)=>setAuthSel(ele.target.value)}/>
         </label>
       <button onClick={select}>조회하기</button>
-      {/* <div>{authSelServer}</div> */}
+      <div>{authSelServer}</div>
       </div>
     </div>
   );
