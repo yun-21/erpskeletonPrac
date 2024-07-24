@@ -8,7 +8,7 @@ dotenv.config({ path: `${__dirname}/../../.env` });
 const pool = new Pool({
   user: "postgres",
   host: 'localhost',
-  database: 'shindatabase',
+  database : 'postgres',
   password: '1234',
   port: 5432,
 });
@@ -51,18 +51,19 @@ app.post('/send', async (req, res) => {
 });
 
 app.post('/select', async (req, res) => {
-  const nameResult = req.body;
-  console.log(nameResult)
+  const {name} = req.body;
   try {
     const result = await pool.query(`
-      SELECT ${nameResult}
+      SELECT name
       FROM user_test
-    `);
-    if(result){
-      console.log(result,"있음");
-      res.json(result);
+      WHERE name =$1
+    `,[name]);
+    console.log(result.rows)
+    if(result.rows.length>0){
+      res.json({message : "존재함"});
+    }else{
+      res.json({message : "존재안함"});
     }
-    console.log(result,"없음");
   } catch (error) {
     console.error('사용자 조회 실패:', error);
     res.status(500).send('Internal Server Error');
