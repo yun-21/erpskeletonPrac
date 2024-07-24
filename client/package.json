@@ -1,0 +1,30 @@
+{
+    "name": "client",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+      "react": "^18.3.1",
+      "react-dom": "^18.3.1"
+    },
+    "devDependencies": {
+      "@babel/cli": "^7.24.8",
+      "@babel/core": "^7.24.9",
+      "@babel/preset-env": "^7.24.8",
+      "@babel/preset-react": "^7.24.7",
+      "@babel/preset-typescript": "^7.24.7",
+      "@types/react": "^18.3.3",
+      "@types/react-dom": "^18.3.0",
+      "typescript": "^4.0.0",
+      "webpack": "^5.93.0",
+      "webpack-cli": "^5.1.4",
+      "webpack-dev-server": "^5.0.4"
+    },
+    "scripts": {
+      "build": "npx babel src --out-dir dist --extensions .tsx && npx webpack --config webpack.config.js",
+      "lint": "eslint . --ext .ts,.tsx",
+      "babel": "npx babel src --out-dir dist --extensions .tsx",
+      "webpack": "npx webpack --config webpack.config.js",
+      "build:dev": "webpack --mode=development",
+      "start": "webpack serve --config webpack.config.js"
+    }
+  }
