@@ -8,7 +8,7 @@ dotenv.config({ path: `${__dirname}/../../.env` });
 const pool = new Pool({
   user: "postgres",
   host: 'localhost',
-  database : 'postgres',
+  database : 'shindatabase',
   password: '1234',
   port: 5432,
 });
@@ -51,22 +51,27 @@ app.post('/send', async (req, res) => {
 });
 
 app.post('/select', async (req, res) => {
-  const {name} = req.body;
+  const {name, field} = req.body;
+  const client = await pool.connect(); 
   try {
-    const result = await pool.query(`
-      SELECT name
+    const result = await client.query(`
+      SELECT id
       FROM user_test
       WHERE name =$1
     `,[name]);
     console.log(result.rows)
     if(result.rows.length>0){
-      res.json({message : "존재함"});
+      const userId = result.rows[0].id;
+      await client.query('INSERT INTO auth_test(id, field) VALUES($1, $2)', [userId, field]);
+      res.json({message: '존재하고 권한 부여 완료'});
     }else{
       res.json({message : "존재안함"});
     }
   } catch (error) {
     console.error('사용자 조회 실패:', error);
     res.status(500).send('Internal Server Error');
+  } finally {
+    client.release(); // 연결 종료
   }
 })
 app.listen(port, () => {
