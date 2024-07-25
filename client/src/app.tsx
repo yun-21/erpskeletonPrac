@@ -10,7 +10,6 @@ const App: React.FC = () => {
     const [authSel, setAuthSel] = useState(''); //사용자 입력
     const [authSelServer, setAuthSelServer] = useState(''); //서버 데이터
     const [field, setfield] = useState(''); //사용자 입력
-    const [fieldServer, setfieldServer] = useState(''); //사용자 입력
 
 
     useEffect(() => {
@@ -58,7 +57,7 @@ const App: React.FC = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name: authSel })
+            body: JSON.stringify({ name: authSel, field: field })
         })
             .then(response => response.json())
             .then(data => setAuthSelServer(data.message))
@@ -84,7 +83,7 @@ const App: React.FC = () => {
                     <input type="text" value={authSel} onChange={(ele) => setAuthSel(ele.target.value)} />
                 </label>
                 <label>권한 부여
-                    <input type="text" value={field} onChange={(ele)=>setfield(ele.target.value)}/>
+                    <input type="text" value={field} onChange={(ele) => setfield(ele.target.value)} />
                 </label>
                 <button onClick={select}>조회하기</button>
                 <div>{authSelServer}</div>
